@@ -65,6 +65,12 @@
                 });
             },
 
+
+            'form.featured_image'() {
+                this.save();
+            },
+
+
             'form.published'(val) {
                 if (this.postBodyWatcher) {
                     this.postBodyWatcher();
@@ -214,6 +220,16 @@
 
 
             /**
+             * Close the Settings modal.
+             */
+            closeSettingsModal() {
+                this.settingsModalShown = false;
+
+                this.save();
+            },
+
+
+            /**
              * Open the SEO & Social modal.
              */
             seoModal() {
@@ -252,6 +268,8 @@
             closeSeoModal({content}) {
                 this.seoModalShown = false;
                 this.form.meta = content;
+
+                this.save();
             },
 
 
@@ -318,7 +336,7 @@
                     }
                 }).catch(error => {
                     this.status = '';
-                    
+
                     this.errors = error.response.data.errors;
 
                     this.settingsModalShown = true;
@@ -385,7 +403,7 @@
         </div>
 
         <!-- General Settings Modal -->
-        <modal v-if="settingsModalShown" @close="settingsModalShown = false">
+        <modal v-if="settingsModalShown" @close="closeSettingsModal">
             <div class="input-group pt-0">
                 <label for="slug" class="input-label">Slug</label>
                 <input type="text" class="input"
@@ -427,7 +445,7 @@
             </div>
 
             <div class="mt-10">
-                <button class="btn-sm btn-primary" @click="settingsModalShown = false">Done</button>
+                <button class="btn-sm btn-primary" @click="closeSettingsModal">Done</button>
             </div>
         </modal>
 
